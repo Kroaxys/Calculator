@@ -2,7 +2,10 @@
 {
     public partial class MainPage : ContentPage
     {
-        double temp;
+        double temp = 0;
+        string symbol;
+        double operand = 0; 
+
         public MainPage()
         {
             InitializeComponent();
@@ -32,7 +35,7 @@
             Button button = (Button)sender;
 
             EntryResult.Text += button.Text;
-
+            symbol += button.Text;
         }
 
         private void SymbolButton(object sender, EventArgs e)
@@ -41,15 +44,42 @@
 
             EntryResult.Text += button.Text;
 
+            symbol = button.Text;
+
         }
 
         private void AnswerButton(object sender, EventArgs e)
         {
-            double sum = 0;
-
-            temp = sum;
+            Calculate();
 
         }
-    }
 
+        public void Calculate()
+        {
+            switch (symbol)
+            {
+                case "+":
+                    temp += double.Parse(EntryResult.Text);
+                    break;
+                case "-":
+                    temp -= double.Parse(EntryResult.Text);
+                    break;
+                case "*":
+                    temp *= double.Parse(EntryResult.Text);
+                    break;
+                case "/":
+                    if (double.Parse(EntryResult.Text) == 0)
+                    {
+                        DisplayAlert("Fel", "Division med 0 är inte tillåtet", "Ok");
+                    }
+                    temp /= double.Parse(EntryResult.Text);
+                    break;
+                default:
+                    EntryCalculation.Text = "Error";
+                    break;
+            }
+
+        }
+
+    }
 }
