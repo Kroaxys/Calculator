@@ -1,9 +1,11 @@
-﻿namespace Calculator
+﻿
+
+namespace Calculator
 {
     public partial class MainPage : ContentPage
     {
-        double temp = 0;
-        string symbol;
+        double temp = 0; 
+        string symbol = ""; 
         double operand = 0; 
 
         public MainPage()
@@ -25,32 +27,50 @@
 
 
         }*/
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+       
         private void NumberButton(object sender, EventArgs e)
         {
             Button button = (Button)sender;
 
-            EntryResult.Text += button.Text;
-            symbol += button.Text;
+            operand = (operand * 10) + Convert.ToDouble(button.Text);
+
+            
+            EntryResult.Text = operand.ToString();
+            EntryCalculation.Text += button.Text;
+            
         }
 
         private void SymbolButton(object sender, EventArgs e)
         {
+            
+            if (symbol != "")
+            {
+                Calculate();
+                
+            }
+            else
+            {
+                temp = operand;
+            }
+
+            operand = 0;
             Button button = (Button)sender;
 
-            EntryResult.Text += button.Text;
-
             symbol = button.Text;
+            EntryCalculation.Text += $" {symbol} ";
+
+            
 
         }
 
         private void AnswerButton(object sender, EventArgs e)
         {
+
             Calculate();
+            EntryResult.Text = temp.ToString();
+            EntryCalculation.Text = temp.ToString();
+            operand = 0; //reset operand
+            /*symbol = ""; //reset symbol*/
 
         }
 
@@ -59,26 +79,42 @@
             switch (symbol)
             {
                 case "+":
-                    temp += double.Parse(EntryResult.Text);
+                    temp += operand; 
                     break;
                 case "-":
-                    temp -= double.Parse(EntryResult.Text);
+                    temp -= operand;
                     break;
                 case "*":
-                    temp *= double.Parse(EntryResult.Text);
+                    temp *= operand;
                     break;
                 case "/":
-                    if (double.Parse(EntryResult.Text) == 0)
+                    if (operand == 0)
                     {
                         DisplayAlert("Fel", "Division med 0 är inte tillåtet", "Ok");
+                        Clear();
+                        return;
                     }
-                    temp /= double.Parse(EntryResult.Text);
+                    temp /= operand;
                     break;
-                default:
-                    EntryCalculation.Text = "Error";
-                    break;
-            }
+                
+               
+                    
+             }
+         operand = 0;
 
+        }
+
+        private void Clear()
+        {
+            EntryResult.Text = "0";
+            EntryCalculation.Text = "";
+            temp = 0;
+            operand = 0;
+            symbol = "";
+        }
+        private void ClearButton(object sender, EventArgs e)
+        {
+            Clear();
         }
 
     }
