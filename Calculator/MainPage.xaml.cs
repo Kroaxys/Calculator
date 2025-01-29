@@ -1,12 +1,17 @@
 ﻿
 
+using System.Diagnostics;
+
 namespace Calculator
 {
     public partial class MainPage : ContentPage
     {
-        double temp = 0; 
-        string symbol = ""; 
-        double operand = 0; 
+        double temp = 0; //Temporary variable to store the result of the calculation
+        string symbol = ""; //Variable to store the symbol of the operation
+        double operand = 0; //Variable to store the number entered by the user
+        int numberbuttonpresses = 0; //Variable to store the number of times a number button has been pressed
+        int symbolbuttonpresses = 0; //Variable to store the number of times a symbol button has been pressed
+
 
         public MainPage()
         {
@@ -30,91 +35,149 @@ namespace Calculator
        
         private void NumberButton(object sender, EventArgs e)
         {
-            Button button = (Button)sender;
+            Button button = (Button)sender; //Get the button that was clicked
 
-            operand = (operand * 10) + Convert.ToDouble(button.Text);
+            operand = (operand * 10) + Convert.ToDouble(button.Text); //Add the number to the operand
 
-            
-            EntryResult.Text = operand.ToString();
-            EntryCalculation.Text += button.Text;
-            
+            Debug.WriteLine($"{operand}{symbol}{temp}");
+            EntryResult.Text = operand.ToString(); //Display the number in the result field
+            EntryCalculation.Text += button.Text; //Display the number in the calculation field along with any previously inputed numbers
+            numberbuttonpresses++; //Increment the number of times a number button has been pressed by one
+            symbolbuttonpresses = 0; //Reset the number of times a symbol button has been pressed
+
         }
 
         private void SymbolButton(object sender, EventArgs e)
         {
             
-            if (symbol != "")
+            if (symbol != "" && symbolbuttonpresses == 0 && numberbuttonpresses == 0) //If there is already a symbol, calculate the result. Check if the user has entered a number before pressing a symbol button
             {
-                Calculate();
-                
+                Calculate();                
+            }
+            else if (temp != 0 && symbolbuttonpresses == 0 && numberbuttonpresses == 1) 
+            {}
+            else if (temp != 0 && symbolbuttonpresses == 1 && numberbuttonpresses == 0)
+            {
+                EntryCalculation.Text = string.Empty;
+                EntryCalculation.Text = "You are missing numbers.";                
             }
             else
             {
-                temp = operand;
+                temp = operand; //Set the temp variable to the operand
             }
+            Debug.WriteLine($"{operand}{symbol}{temp}");
 
-            operand = 0;
-            Button button = (Button)sender;
+            operand = 0; //Reset operand so that the user can enter a new number
+            Button button = (Button)sender; //Get the button that was clicked
 
-            symbol = button.Text;
-            EntryCalculation.Text += $" {symbol} ";
+            symbol = button.Text; //Set the symbol to the symbol variable of the button that was clicked
+            EntryCalculation.Text += $" {symbol} "; //Display the symbol in the calculation field
+            symbolbuttonpresses++; //Increment the number of times a symbol button has been pressed by one
+            numberbuttonpresses = 0; //Reset the number of times a number button has been pressed
 
-            
 
         }
 
         private void AnswerButton(object sender, EventArgs e)
         {
-
-            Calculate();
-            EntryResult.Text = temp.ToString();
-            EntryCalculation.Text = temp.ToString();
-            operand = 0; //reset operand
-            /*symbol = ""; //reset symbol*/
+            if (symbolbuttonpresses == 0 && numberbuttonpresses > 0) //Check if the user has entered a number before pressing the answer button
+            {
+                Calculate();
+                EntryResult.Text = temp.ToString(); //Display the result in the result field
+                EntryCalculation.Text = temp.ToString(); //Display the result in the calculation field
+                operand = 0; //reset operand
+            }
+            else
+            {
+                EntryCalculation.Text = "You are missing numbers.";
+            }
+            
+            
 
         }
 
         public void Calculate()
         {
-            switch (symbol)
+
+            if (operand == 0)
             {
-                case "+":
-                    temp += operand; 
-                    break;
-                case "-":
-                    temp -= operand;
-                    break;
-                case "*":
-                    temp *= operand;
-                    break;
-                case "/":
-                    if (operand == 0)
-                    {
-                        DisplayAlert("Fel", "Division med 0 är inte tillåtet", "Ok");
-                        Clear();
-                        return;
-                    }
-                    temp /= operand;
-                    break;
-                
-               
-                    
-             }
-         operand = 0;
+                Debug.WriteLine($"{operand}{symbol}{temp}");
+                switch (symbol) //Perform the calculation based on the symbol
+                {
+                    case "+": //Addition
+                        temp += temp;
+                        break;
+                    case "-": //Subtraction
+                        temp -= temp;
+                        break;
+                    case "*": //Multiplication 
+                        temp *= temp;
+                        break;
+                    case "/": //Division
+                        if (temp == 0) //Check if the user is trying to divide by 0
+                        {
+                            DisplayAlert("Fel", "Division med 0 är inte tillåtet", "Ok");
+                            Clear();
+                            return;
+                        }
+                        temp /= temp;
+                        break;
+
+
+
+                }
+                Debug.WriteLine($"{operand}{symbol}{temp}");
+            }
+            else 
+            {
+                Debug.WriteLine($"{operand}{symbol}{temp}");
+                switch (symbol) //Perform the calculation based on the symbol
+                {
+                    case "+": //Addition
+                        temp += operand;
+                        break;
+                    case "-": //Subtraction
+                        temp -= operand;
+                        break;
+                    case "*": //Multiplication
+                        temp *= operand;
+                        break;
+                    case "/": //Division
+                        if (operand == 0) //Check if the user is trying to divide by 0
+                        {
+                            DisplayAlert("Fel", "Division med 0 är inte tillåtet", "Ok");
+                            Clear();
+                            return;
+                        }
+                        temp /= operand;
+                        break;
+                        }
+                Debug.WriteLine($"{operand}{symbol}{temp}");
+            }
+            
+
+            operand = 0; //Reset operand
+            symbol = ""; //Reset symbol
 
         }
 
-        private void Clear()
+        private void Clear() //Clear all fields
         {
             EntryResult.Text = "0";
             EntryCalculation.Text = "";
             temp = 0;
             operand = 0;
             symbol = "";
+            symbolbuttonpresses = 1;
+            numberbuttonpresses = 0;
         }
-        private void ClearButton(object sender, EventArgs e)
+        private void ClearButton(object sender, EventArgs e) //Clear all fields if the clear button is clicked
         {
             Clear();
+        }
+        private void MissingNumber()
+        {
+            EntryCalculation.Text = "You are missing numbers.";
         }
 
     }
