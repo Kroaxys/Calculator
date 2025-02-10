@@ -12,7 +12,7 @@
 
         <!--Row 1-->
         <Button Grid.Row="2" Grid.Column="0" Text="%" Clicked="NumberButton"/>
-        <Button Grid.Row="2" Grid.Column="1" Text="CE" Clicked="NumberButton"/>
+        <Button Grid.Row="2" Grid.Column="1" Text="CE" Clicked="ClearButton"/>
         <Button Grid.Row="2" Grid.Column="2" Text="C" Clicked="ClearButton"/>
         <Button Grid.Row="2" Grid.Column="3" Text="Delete" Clicked="NumberButton"/>
 

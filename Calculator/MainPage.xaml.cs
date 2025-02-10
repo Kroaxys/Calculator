@@ -58,8 +58,7 @@ namespace Calculator
             {}
             else if (temp != 0 && symbolbuttonpresses == 1 && numberbuttonpresses == 0)
             {
-                EntryCalculation.Text = string.Empty;
-                EntryCalculation.Text = "You are missing numbers.";                
+                MissingNumber();
             }
             else
             {
@@ -69,7 +68,6 @@ namespace Calculator
 
             operand = 0; //Reset operand so that the user can enter a new number
             Button button = (Button)sender; //Get the button that was clicked
-
             symbol = button.Text; //Set the symbol to the symbol variable of the button that was clicked
             EntryCalculation.Text += $" {symbol} "; //Display the symbol in the calculation field
             symbolbuttonpresses++; //Increment the number of times a symbol button has been pressed by one
@@ -89,7 +87,7 @@ namespace Calculator
             }
             else
             {
-                EntryCalculation.Text = "You are missing numbers.";
+                MissingNumber();
             }
             
             
@@ -178,6 +176,7 @@ namespace Calculator
         private void MissingNumber()
         {
             EntryCalculation.Text = "You are missing numbers.";
+            
         }
 
     }
