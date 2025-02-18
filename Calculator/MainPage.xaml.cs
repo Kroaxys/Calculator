@@ -39,18 +39,18 @@ namespace Calculator
 
             operand = (operand * 10) + Convert.ToDouble(button.Text); //Add the number to the operand
 
-            Debug.WriteLine($"{operand}{symbol}{temp}");
+            Debug.WriteLine($"{operand}operand {symbol}symbol {temp}temp number button inserted1");
             EntryResult.Text = operand.ToString(); //Display the number in the result field
             EntryCalculation.Text += button.Text; //Display the number in the calculation field along with any previously inputed numbers
             numberbuttonpresses++; //Increment the number of times a number button has been pressed by one
             symbolbuttonpresses = 0; //Reset the number of times a symbol button has been pressed
-
-        }
+            Debug.WriteLine($"{operand}operand {symbol}symbol {temp}temp number button inserted2");
+        } 
 
         private void SymbolButton(object sender, EventArgs e)
         {
             
-            if (symbol != "" && symbolbuttonpresses == 0 && numberbuttonpresses == 0) //If there is already a symbol, calculate the result. Check if the user has entered a number before pressing a symbol button
+            if (symbol != "" && symbolbuttonpresses == 0 && numberbuttonpresses == 1) //If there is already a symbol, calculate the result. Check if the user has entered a number before pressing a symbol button
             {
                 Calculate();                
             }
@@ -64,7 +64,7 @@ namespace Calculator
             {
                 temp = operand; //Set the temp variable to the operand
             }
-            Debug.WriteLine($"{operand}{symbol}{temp}");
+            Debug.WriteLine($"{operand}operand {symbol}symbol {temp}temp symbol button inserted1");
 
             operand = 0; //Reset operand so that the user can enter a new number
             Button button = (Button)sender; //Get the button that was clicked
@@ -72,7 +72,7 @@ namespace Calculator
             EntryCalculation.Text += $" {symbol} "; //Display the symbol in the calculation field
             symbolbuttonpresses++; //Increment the number of times a symbol button has been pressed by one
             numberbuttonpresses = 0; //Reset the number of times a number button has been pressed
-
+            Debug.WriteLine($"{operand}operand {symbol}symbol {temp}temp symbol button inserted2");
 
         }
 
@@ -99,7 +99,7 @@ namespace Calculator
 
             if (operand == 0)
             {
-                Debug.WriteLine($"{operand}{symbol}{temp}");
+                Debug.WriteLine($"{operand}operand {symbol}symbol {temp}temp if opperand == 0 begining");
                 switch (symbol) //Perform the calculation based on the symbol
                 {
                     case "+": //Addition
@@ -124,11 +124,11 @@ namespace Calculator
 
 
                 }
-                Debug.WriteLine($"{operand}{symbol}{temp}");
+                Debug.WriteLine($"{operand}operand {symbol}symbol {temp}temp if opperand == 0 end");
             }
             else 
             {
-                Debug.WriteLine($"{operand}{symbol}{temp}");
+                Debug.WriteLine($"{operand}operand {symbol}symbol {temp}temp else begining");
                 switch (symbol) //Perform the calculation based on the symbol
                 {
                     case "+": //Addition
@@ -150,7 +150,7 @@ namespace Calculator
                         temp /= operand;
                         break;
                         }
-                Debug.WriteLine($"{operand}{symbol}{temp}");
+                Debug.WriteLine($"{operand}operand {symbol}symbol {temp}temp else ending");
             }
             
 
