@@ -4,18 +4,26 @@
              x:Class="Calculator.MainPage">
 
 
-    <Grid RowDefinitions="auto,*,*,*,*,*,*,*,*,*" 
-          ColumnDefinitions="*,*,*,*" >
+    <Grid 
+        RowDefinitions="auto,auto,*,*,*,*,*"
+        RowSpacing="4"
+        ColumnDefinitions="*,*,*,*"
+        ColumnSpacing="2"
+        Padding="10"
+        MinimumHeightRequest="500"
+        MinimumWidthRequest="250"
+    >
+        <Entry Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" x:Name="EntryCalculation" HorizontalTextAlignment="End" 
+               FontSize="25" Text="0"/>
 
-        <Entry Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" x:Name="EntryCalculation"/>
-        <Entry Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" x:Name="EntryResult"/>
+        <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" x:Name="EntryResult" Text="0" 
+               HorizontalTextAlignment="End" FontSize="20" FontAttributes="Bold" Padding="5"/>
 
         <!--Row 1-->
-        <Button Grid.Row="2" Grid.Column="0" Text="%" Clicked="NumberButton"/>
-        <Button Grid.Row="2" Grid.Column="1" Text="CE" Clicked="ClearButton"/>
-        <Button Grid.Row="2" Grid.Column="2" Text="C" Clicked="ClearButton"/>
-        <Button Grid.Row="2" Grid.Column="3" Text="Delete" Clicked="NumberButton"/>
-
+        <Button Grid.Row="2" Grid.Column="0" Text="%(out of function)" Clicked="NumberButton"/>        
+        <Button Grid.Row="2" Grid.Column="1" Text="C" Clicked="ClearButton"/>
+        <Button Grid.Row="2" Grid.Column="2" Text="Delete(out of function)" Clicked="NumberButton"/>
+        <Button Grid.Row="2" Grid.Column="3" Text="-" Clicked="SymbolButton"/>
         <!--Row 2-->
         <Button Grid.Row="3" Grid.Column="0" Text="1" Clicked="NumberButton"/>
         <Button Grid.Row="3" Grid.Column="1" Text="2" Clicked="NumberButton"/>
@@ -37,24 +45,10 @@
 
 
         <!--Row 5-->
-        <Button Grid.Row="6" Grid.Column="0" Text="+/-" Clicked="NumberButton"/>
+        <Button Grid.Row="6" Grid.Column="0" Text="+/-(out of function)" Clicked="NumberButton"/>
         <Button Grid.Row="6" Grid.Column="1" Text="0" Clicked="NumberButton"/>
-        <Button Grid.Row="6" Grid.Column="2" Text="," Clicked="NumberButton"/>
+        <Button Grid.Row="6" Grid.Column="2" Text=",(out of function)" Clicked="CommaButton"/>
         <Button Grid.Row="6" Grid.Column="3" Text="=" Clicked="AnswerButton"/>
-
-
-        <!--Row 6-->
-        <Button Grid.Row="7" Grid.Column="0" Text="" Clicked="NumberButton"/>
-        <Button Grid.Row="7" Grid.Column="1" Text="" Clicked="NumberButton"/>
-        <Button Grid.Row="7" Grid.Column="2" Text="" Clicked="NumberButton"/>
-        <Button Grid.Row="7" Grid.Column="3" Text="" Clicked="NumberButton"/>
-
-
-        <!--Row 7-->
-        <Button Grid.Row="8" Grid.Column="0" Text="" Clicked="NumberButton"/>
-        <Button Grid.Row="8" Grid.Column="1" Text="" Clicked="NumberButton"/>
-        <Button Grid.Row="8" Grid.Column="2" Text="" Clicked="NumberButton"/>
-        <Button Grid.Row="8" Grid.Column="3" Text="" Clicked="NumberButton"/>
 
 
 

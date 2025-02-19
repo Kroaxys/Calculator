@@ -1,5 +1,5 @@
 ﻿
-
+using System.Globalization;
 using System.Diagnostics;
 
 namespace Calculator
@@ -11,36 +11,31 @@ namespace Calculator
         double operand = 0; //Variable to store the number entered by the user
         int numberbuttonpresses = 0; //Variable to store the number of times a number button has been pressed
         int symbolbuttonpresses = 0; //Variable to store the number of times a symbol button has been pressed
+        bool calculationdone = false; 
 
 
         public MainPage()
         {
             InitializeComponent();
         }
-
-        /*protected override Window CreateWindow(IActivationState? activationState)
-        {
-
-            var window = new Window(new AppShell()
-
-
-            {
-                Width
-
-
-            };
-
-
-        }*/
        
-        private void NumberButton(object sender, EventArgs e)
+        private void CommaButton(object sender, EventArgs e)
+        {
+            Button button = (Button)sender; //Get the button that was clicked
+            EntryCalculation.Text += button.Text; //Display the comma in the calculation field
+            operand = Convert.ToDouble(button.Text); //Get the number from the result field and add the comma
+
+
+        }
+
+        private void NumberButton(object sender, EventArgs e) 
         {
             Button button = (Button)sender; //Get the button that was clicked
 
-            operand = (operand * 10) + Convert.ToDouble(button.Text); //Add the number to the operand
+            operand = (operand * 10) + Convert.ToDouble(button.Text); //Get the number from the button and add it to the operand
 
             Debug.WriteLine($"{operand}operand {symbol}symbol {temp}temp number button inserted1");
-            EntryResult.Text = operand.ToString(); //Display the number in the result field
+            
             EntryCalculation.Text += button.Text; //Display the number in the calculation field along with any previously inputed numbers
             numberbuttonpresses++; //Increment the number of times a number button has been pressed by one
             symbolbuttonpresses = 0; //Reset the number of times a symbol button has been pressed
@@ -49,22 +44,33 @@ namespace Calculator
 
         private void SymbolButton(object sender, EventArgs e)
         {
-            
+
             if (symbol != "" && symbolbuttonpresses == 0 && numberbuttonpresses == 1) //If there is already a symbol, calculate the result. Check if the user has entered a number before pressing a symbol button
             {
-                Calculate();                
+                Calculate();
             }
-            else if (temp != 0 && symbolbuttonpresses == 0 && numberbuttonpresses == 1) 
-            {}
+            else if (calculationdone == false && temp != 0 && symbolbuttonpresses == 0 && numberbuttonpresses >= 1)
+            {
+                temp = operand;
+                EntryCalculation.Text = temp.ToString();
+            }
             else if (temp != 0 && symbolbuttonpresses == 1 && numberbuttonpresses == 0)
             {
                 MissingNumber();
             }
-            else
+            else if (calculationdone == false)
             {
                 temp = operand; //Set the temp variable to the operand
             }
-            Debug.WriteLine($"{operand}operand {symbol}symbol {temp}temp symbol button inserted1");
+            else if (calculationdone == true) 
+            {}
+            else
+            {
+                EntryResult.Text = "Something has gone wrong";
+            }
+
+
+                Debug.WriteLine($"{operand}operand {symbol}symbol {temp}temp symbol button inserted1");
 
             operand = 0; //Reset operand so that the user can enter a new number
             Button button = (Button)sender; //Get the button that was clicked
@@ -84,6 +90,7 @@ namespace Calculator
                 EntryResult.Text = temp.ToString(); //Display the result in the result field
                 EntryCalculation.Text = temp.ToString(); //Display the result in the calculation field
                 operand = 0; //reset operand
+
             }
             else
             {
@@ -156,6 +163,7 @@ namespace Calculator
 
             operand = 0; //Reset operand
             symbol = ""; //Reset symbol
+            calculationdone = true;
 
         }
 
